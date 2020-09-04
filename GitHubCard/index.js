@@ -1,8 +1,23 @@
+
+import axios from 'axios'
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+
+axios.get('https://api.github.com/users/AdamRuffner')
+    .then(response => {
+      cardMaker(response.data)
+    })
+    console.log(cardMaker)
+
+  
+
+
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +43,19 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell']
+
+followersArray.forEach(item => {
+  axios.get(`https://api.github.com/users/${item}`)
+  .then(response => {
+    cardMaker(response.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -46,9 +73,72 @@ const followersArray = [];
         <p>Followers: {users followers count}</p>
         <p>Following: {users following count}</p>
         <p>Bio: {users bio}</p>
-      </div>
-    </div>
-*/
+        </div>
+        </div>
+        */
+
+const cards = document.querySelector('.cards')
+
+function cardMaker(object){
+
+  const card = document.createElement('div')
+  card.classList.add('card')
+
+  const img = document.createElement('img')
+  img.src = object.avatar_url
+
+  const cardInfo = document.createElement('div')
+  cardInfo.classList.add('card')
+
+  const name = document.createElement('h3')
+  name.classList.add('name')
+  name.textContent = object.name
+
+  const username = document.createElement('p')
+  username.classList.add = (`username`)
+  username.textContent = `Username: ${object.login}`
+
+  const location = document.createElement('p')
+  location.textContent = `Location: ${object.location}`
+
+  const profile = document.createElement('p')
+  profile.textContent = `Profile:`
+
+  const profileLink = document.createElement('a')
+  profileLink.href = object.html_url
+  profileLink.textContent = object.html_url
+
+  const followers = document.createElement('p')
+  followers.textContent = `Followers: ${object.followers}`
+
+  const following = document.createElement('p')
+  following.textContent = `Followers: ${object.following}`
+
+  const bio = document.createElement('p')
+  bio.textContent = `Bio: ${object.bio}`
+
+  
+  //append
+  card.append(img)
+  card.append(cardInfo)
+  cardInfo.append(name)
+  cardInfo.append(username)
+  cardInfo.append(location)
+  cardInfo.append(profile)
+  profile.append(profileLink)
+  cardInfo.append(followers)
+  cardInfo.append(following)
+  cardInfo.append(bio)
+  cards.append(card)
+
+  return cards
+
+
+}
+
+
+
+
 
 /*
   List of LS Instructors Github username's:
